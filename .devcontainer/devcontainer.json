@@ -1,0 +1,21 @@
+{
+    "name": "Demo App Dev Container",
+    "dockerComposeFile": [
+        "../compose.yaml"
+    ],
+    "service": "demo-app",
+    "workspaceFolder": "/src",
+    "shutdownAction": "stopCompose",
+    "customizations": {
+        "vscode": {
+            "settings": {
+                // 必要に応じて VS Code の設定を追加
+            },
+            "extensions": [
+                // Python 関連の拡張機能例
+            ]
+        }
+    },
+    "postCreateCommand": "poetry install --no-root",
+    "remoteUser": "root"
+}

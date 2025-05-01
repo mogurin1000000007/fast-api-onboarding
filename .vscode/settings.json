@@ -1,0 +1,10 @@
+{
+    "editor.formatOnSave": true,
+    "[python]": {
+        "editor.defaultFormatter": "charliermarsh.ruff",
+        "editor.codeActionsOnSave": {
+            "source.fixAll": "explicit", // 自動修正
+            "source.organizeImports": "explicit" // import文のソート
+        }
+    },
+}
