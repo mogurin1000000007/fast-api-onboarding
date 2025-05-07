@@ -1,10 +1,21 @@
 from typing import Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict
 
 
 class TaskBase(BaseModel):
-    title: Optional[str] = Field(None, example="クリーニングをとりに行く")
+    title: Optional[str]
+
+    model_config = ConfigDict(
+        json_schema_extra={
+            "example": {
+                "title": "クリーニングをとりに行く",
+            },
+            "default": {
+                "title": None,
+            },
+        }
+    )
 
 
 class TaskCreate(TaskBase):
@@ -14,13 +25,23 @@ class TaskCreate(TaskBase):
 class TaskCreateResponse(TaskCreate):
     id: int
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(
+        from_attributes=True,
+    )
 
 
 class Task(TaskBase):
     id: int
-    done: bool = Field(False, description="完了フラグ")
+    done: bool
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "description": {
+                "done": "完了フラグ",
+            },
+            "example": {
+                "done": False,
+            },
+        },
+    )
