@@ -1,21 +1,9 @@
-from sqlalchemy import Column, ForeignKey, Integer, String
-from sqlalchemy.orm import relationship
+class Task:
+    id: int
+    title: str
+    done: bool = False
 
-from api.db import Base
-
-
-class Task(Base):
-    __tablename__ = "tasks"
-
-    id = Column(Integer, primary_key=True)
-    title = Column(String(1024))
-
-    done = relationship("Done", back_populates="task", cascade="delete")
-
-
-class Done(Base):
-    __tablename__ = "dones"
-
-    id = Column(Integer, ForeignKey("tasks.id"), primary_key=True)
-
-    task = relationship("Task", back_populates="done")
+    def __init__(self, id: int, title: str, done: bool = False):
+        self.id = id
+        self.title = title
+        self.done = done

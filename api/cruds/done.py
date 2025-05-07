@@ -1,30 +1,19 @@
-from typing import Optional, Tuple
+from typing import Optional
 
-from sqlalchemy import select
-from sqlalchemy.engine import Result
-from sqlalchemy.ext.asyncio import AsyncSession
-
-import api.models.task as task_model
+from supabase import Client
 
 
-async def get_done(db: AsyncSession, task_id: int) -> Optional[task_model.Done]:
-    result: Result = await db.execute(
-        select(task_model.Done).filter(task_model.Done.id == task_id)
-    )
-    done: Optional[Tuple[task_model.Done]] = result.first()
-    return (
-        done[0] if done is not None else None
-    )  # 要素が一つであってもtupleで返却されるので１つ目の要素を取り出す
+async def get_done(supabase_client: Client, task_id: int) -> Optional[bool]:
+    result = supabase_client.table("task").select("*").eq("id", task_id).execute()
+    if result.data:
+        task = result.data[0]
+        return task["done"]
+    return None
 
 
-async def create_done(db: AsyncSession, task_id: int) -> task_model.Done:
-    done = task_model.Done(id=task_id)
-    db.add(done)
-    await db.commit()
-    await db.refresh(done)
-    return done
+async def create_done(supabase_client: Client, task_id: int) -> None:
+    supabase_client.table("task").update({"done": True}).eq("id", task_id).execute()
 
 
-async def delete_done(db: AsyncSession, original: task_model.Done) -> None:
-    await db.delete(original)
-    await db.commit()
+async def delete_done(supabase_client: Client, task_id: int) -> None:
+    supabase_client.table("task").update({"done": False}).eq("id", task_id).execute()

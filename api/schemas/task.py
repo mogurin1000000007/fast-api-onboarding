@@ -18,11 +18,11 @@ class TaskBase(BaseModel):
     )
 
 
-class TaskCreate(TaskBase):
+class TaskCreateRequest(TaskBase):
     pass
 
 
-class TaskCreateResponse(TaskCreate):
+class TaskCreateResponse(TaskCreateRequest):
     id: int
 
     model_config = ConfigDict(

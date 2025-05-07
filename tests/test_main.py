@@ -5,7 +5,7 @@ from httpx import ASGITransport, AsyncClient
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 
-from api.db import Base, get_db
+from api.supabase_client import Base, get_db
 from api.main import app
 
 ASYNC_DB_URL = "sqlite+aiosqlite:///:memory:"

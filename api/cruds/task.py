@@ -9,7 +9,7 @@ import api.schemas.task as task_schema
 
 
 async def create_task(
-    db: AsyncSession, task_create: task_schema.TaskCreate
+    db: AsyncSession, task_create: task_schema.TaskCreateRequest
 ) -> task_model.Task:
     task = task_model.Task(**task_create.model_dump())
     db.add(task)
@@ -40,7 +40,9 @@ async def get_task(db: AsyncSession, task_id: int) -> Optional[task_model.Task]:
 
 
 async def update_task(
-    db: AsyncSession, task_create: task_schema.TaskCreate, original: task_model.Task
+    db: AsyncSession,
+    task_create: task_schema.TaskCreateRequest,
+    original: task_model.Task,
 ) -> task_model.Task:
     original.title = task_create.title
     db.add(original)
